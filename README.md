@@ -14,6 +14,7 @@ Aplicação web para análise preliminar de desempenho de veículos aéreos não
 - Docker Engine 24+ e Docker Compose (`docker compose`);
 - Node.js 20 LTS+ e npm;
 - Python 3.11+ para rodar o motor fora de Docker (a imagem usa Python 3.12);
+- 8 GB de RAM e 10 GB de espaço em disco;
 - Linux, macOS ou Windows com WSL2.
 
 ## Início rápido
@@ -24,7 +25,7 @@ Na raiz do projeto, execute:
 ./dev.sh
 ```
 
-Na primeira execução, o script sobe PostgreSQL 16 e Redis 7, cria o ambiente virtual Python, instala as dependências, aplica as migrations e carrega os dados iniciais. O arquivo `apps/web/.env` é criado a partir de `.env.example`. Preencha `AUTH_SECRET` com um valor gerado localmente:
+Na primeira execução, o script sobe PostgreSQL 16 e Redis 7, cria o ambiente virtual Python, instala as dependências, aplica as migrations e carrega os dados iniciais. O arquivo `apps/web/.env` é criado a partir de `.env.example`. Preencha `AUTH_SECRET` com um valor gerado localmente e ajuste `GRAPHS_DIR` para o caminho absoluto de `storage/graphs` neste checkout, para a aplicação web servir os gráficos gerados:
 
 ```bash
 openssl rand -base64 32
