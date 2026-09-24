@@ -1,0 +1,150 @@
+// Esquema relacional do VANT-Performance.
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum Role {
+  USER
+  ADMIN
+}
+
+enum AnalysisStatus {
+  PENDING
+  RUNNING
+  DONE
+  FAILED
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String
+  role         Role      @default(USER)
+  projects     Project[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("users")
+}
+
+model Project {
+  id          String          @id @default(cuid())
+  userId      String
+  user        User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  name        String
+  description String?
+  config      AircraftConfig?
+  analyses    Analysis[]
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+
+  @@index([userId])
+  @@map("projects")
+}
+
+model AircraftConfig {
+  id              String     @id @default(cuid())
+  projectId       String     @unique
+  project         Project    @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  // Geometria
+  wingspan        Float // m
+  chord           Float // m
+  area            Float // m^2
+  // Aerodinamica
+  clMax           Float
+  cd0             Float
+  oswald          Float
+  /// Fator de carga limite positivo. Define o ponto de manobra
+  /// v* = v_estol * sqrt(n_max), que fecha o envelope pelo lado estrutural
+  /// (RODRIGUES, 2014, Eq. 4.154a). Padrao 3,8 por ser o valor adotado na
+  /// categoria SAE-AeroDesign.
+  loadFactor      Float      @default(3.8)
+  // Pesos [kg]
+  emptyWeight     Float
+  payload         Float
+  // Bateria
+  batteryCapacity Int // mAh
+  batteryVoltage  Float // V
+  batteryCells    Int
+  // Eficiencias do conjunto propulsivo
+  etaEsc          Float      @default(0.95)
+  etaMotor        Float      @default(0.85)
+  etaProp         Float      @default(0.75)
+  analyses        Analysis[]
+  createdAt       DateTime   @default(now())
+  updatedAt       DateTime   @updatedAt
+
+  @@map("aircraft_configs")
+}
+
+model Propeller {
+  id           String     @id @default(cuid())
+  name         String     @unique
+  diameter     Float // polegadas
+  pitch        Float // polegadas
+  manufacturer String
+  dataFilePath String? // CSV experimental V x T
+  testDensity  Float      @default(1.225) // kg/m^3 do ensaio
+  analyses     Analysis[]
+  createdAt    DateTime   @default(now())
+
+  @@map("propellers")
+}
+
+model Motor {
+  id                 String     @id @default(cuid())
+  name               String     @unique
+  brand              String
+  kvRating           Int
+  maxPower           Float // W
+  maxCurrent         Float // A
+  weight             Float // g
+  internalResistance Float // ohm
+  analyses           Analysis[]
+  createdAt          DateTime   @default(now())
+
+  @@map("motors")
+}
+
+model Analysis {
+  id                  String          @id @default(cuid())
+  projectId           String
+  project             Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
+  aircraftConfigId    String
+  aircraftConfig      AircraftConfig  @relation(fields: [aircraftConfigId], references: [id])
+  propellerId         String
+  propeller           Propeller       @relation(fields: [propellerId], references: [id])
+  motorId             String
+  motor               Motor           @relation(fields: [motorId], references: [id])
+  altitude            Float
+  // altitudes extras sobrepostas nas curvas dos graficos (RF013); vazio recai
+  // no padrao de dois degraus acima da altitude de operacao
+  comparisonAltitudes Float[]
+  status              AnalysisStatus  @default(PENDING)
+  results             Json?
+  errorMessage        String?
+  graphs              AnalysisGraph[]
+  createdAt           DateTime        @default(now())
+  completedAt         DateTime?
+
+  @@index([projectId, status])
+  @@index([projectId, createdAt])
+  @@map("analyses")
+}
+
+model AnalysisGraph {
+  id         String   @id @default(cuid())
+  analysisId String
+  analysis   Analysis @relation(fields: [analysisId], references: [id], onDelete: Cascade)
+  type       String
+  filePath   String
+
+  @@map("analysis_graphs")
+}

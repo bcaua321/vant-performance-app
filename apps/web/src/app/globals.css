@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+/*
+ * Identidade visual: instrumento tecnico.
+ * Grafite sobre papel de prancheta, um unico acento ambar reservado aos
+ * LIMITES do envelope de voo (estol, velocidade maxima, teto). Vermelho
+ * aparece so em falha de execucao. Nenhuma cor decorativa.
+ */
+@theme {
+  --color-paper: #edede7;
+  --color-panel: #f8f8f5;
+  --color-ink: #1a1c1b;
+  --color-muted: #63665f;
+  --color-faint: #686b63;
+  --color-rule: #cbcbc2;
+  --color-hairline: #dcdcd4;
+  --color-signal: #8f5500;
+  --color-alarm: #8c2a18;
+
+  /* Traços dos gráficos. O par âmbar/verde-petróleo passa nos seis testes de
+     paleta (banda de luminosidade, croma, separação sob daltonismo, piso de
+     visão normal, contraste). Altitude é variável ORDENADA: vira degrau de
+     luminosidade dentro da mesma matiz, nunca outra cor. */
+  --color-plot-required: #8f5500;
+  --color-plot-available: #008e80;
+
+  --font-sans: var(--font-plex-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, monospace;
+}
+
+body {
+  @apply bg-paper text-ink antialiased;
+  font-family: var(--font-sans);
+}
+
+/* Numerais sempre tabulares: metricas sao lidas em coluna, alinhadas. */
+.num {
+  font-family: var(--font-mono);
+  font-variant-numeric: tabular-nums;
+  font-feature-settings: "tnum" 1;
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-signal);
+  outline-offset: 2px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

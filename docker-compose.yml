@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: vant
+      POSTGRES_PASSWORD: vant
+      POSTGRES_DB: vant
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U vant"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  python-engine:
+    build: ./apps/python-engine
+    ports:
+      - "8000:8000"
+    volumes:
+      - ./storage/graphs:/storage/graphs
+    environment:
+      GRAPHS_DIR: /storage/graphs
+    profiles: ["full"]
+
+volumes:
+  pgdata:

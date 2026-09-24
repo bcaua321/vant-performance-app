@@ -1,0 +1,33 @@
+node_modules/
+.next/
+.venv/
+__pycache__/
+*.pyc
+storage/graphs/
+apps/python-engine/output/
+.env
+.env.local
+!.env.example
+.pytest_cache/
+*.tsbuildinfo
+
+# Material de terceiros / arquivos grandes fora do repositório
+reference/**/Biblioteca/
+*.zip
+*.rar
+*.7z
+storage/logs/
+
+# artefatos de compilacao LaTeX
+*.aux
+*.fdb_latexmk
+*.fls
+*.lof
+*.log
+*.lot
+*.out
+*.synctex
+*.synctex.gz
+*.synctex(busy)
+*.toc
+docs/entrega/
