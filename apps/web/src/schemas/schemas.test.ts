@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { aircraftConfigSchema } from "./aircraft.schema";
 import { createAnalysisSchema } from "./analysis.schema";
-import { registerSchema } from "./auth.schema";
+import { registerSchema, resetPasswordSchema } from "./auth.schema";
 
 const validConfig = {
   wingspan: 2.4,
@@ -56,5 +56,17 @@ describe("registerSchema (RF001/RNF012)", () => {
     expect(() =>
       registerSchema.parse({ name: "Breno", email: "b@x.com", password: "senha1234" }),
     ).not.toThrow();
+  });
+});
+
+describe("resetPasswordSchema (RF003)", () => {
+  it("aplica a mesma regra de senha do cadastro", () => {
+    expect(resetPasswordSchema.safeParse({ token: "abc", password: "senha123" }).success).toBe(true);
+    expect(resetPasswordSchema.safeParse({ token: "abc", password: "curta1" }).success).toBe(false);
+    expect(resetPasswordSchema.safeParse({ token: "abc", password: "semnumeros" }).success).toBe(false);
+  });
+
+  it("exige o token", () => {
+    expect(resetPasswordSchema.safeParse({ token: "", password: "senha123" }).success).toBe(false);
   });
 });

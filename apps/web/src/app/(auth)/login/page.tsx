@@ -43,6 +43,9 @@ export default function LoginPage() {
             <Label htmlFor="password">Senha</Label>
             <Input id="password" type="password" {...register("password")} />
             <FieldError message={errors.password?.message} />
+            <Link href="/forgot-password" className="mt-1 inline-block text-xs text-muted underline decoration-rule underline-offset-2 hover:text-ink">
+              Esqueci minha senha
+            </Link>
           </div>
           {error && <p className="text-sm text-alarm">{error}</p>}
           <Button type="submit" className="w-full" disabled={isSubmitting}>

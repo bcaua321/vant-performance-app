@@ -28,6 +28,7 @@ model User {
   passwordHash String
   role         Role      @default(USER)
   projects     Project[]
+  passwordResetTokens PasswordResetToken[]
   createdAt    DateTime  @default(now())
   updatedAt    DateTime  @updatedAt
 
@@ -147,4 +148,19 @@ model AnalysisGraph {
   filePath   String
 
   @@map("analysis_graphs")
+}
+
+/// RF003: token de recuperacao de senha. Guarda apenas o hash SHA-256 do
+/// token enviado ao usuario; expira em 1 hora e vale para um unico uso.
+model PasswordResetToken {
+  id        String    @id @default(cuid())
+  tokenHash String    @unique
+  userId    String
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  expiresAt DateTime
+  usedAt    DateTime?
+  createdAt DateTime  @default(now())
+
+  @@index([userId])
+  @@map("password_reset_tokens")
 }
