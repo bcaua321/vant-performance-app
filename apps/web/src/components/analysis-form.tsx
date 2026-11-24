@@ -120,7 +120,7 @@ export function AnalysisForm({
                 <option value="">Selecione...</option>
                 {filteredPropellers.map((p) => (
                   <option key={p.id} value={p.id}>
-                    {p.name} — {p.diameter}×{p.pitch}&quot; {p.hasData ? "(dados experimentais)" : "(modelo analítico)"}
+                    {p.name} — {p.diameter}×{p.pitch}&quot; {p.hasData ? "(curva de tração tabelada)" : "(modelo analítico)"}
                   </option>
                 ))}
               </Select>

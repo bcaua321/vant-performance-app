@@ -91,8 +91,8 @@ model Propeller {
   diameter     Float // polegadas
   pitch        Float // polegadas
   manufacturer String
-  dataFilePath String? // CSV experimental V x T
-  testDensity  Float      @default(1.225) // kg/m^3 do ensaio
+  dataFilePath String? // CSV da curva de tração tabelada (V x T)
+  testDensity  Float      @default(1.225) // densidade de referência da curva (kg/m^3)
   analyses     Analysis[]
   createdAt    DateTime   @default(now())
 
