@@ -17,7 +17,7 @@ const DEFAULTS: AircraftConfigInput = {
   loadFactor: 3.8,
   emptyWeight: 5.0,
   payload: 3.0,
-  batteryCapacity: 16000,
+  batteryCapacity: 4000,
   batteryVoltage: 22.2,
   batteryCells: 6,
   etaEsc: 0.95,
