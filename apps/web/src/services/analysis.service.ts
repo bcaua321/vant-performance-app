@@ -2,6 +2,7 @@ import { analysisRepository } from "@/repositories/analysis.repository";
 import { catalogRepository } from "@/repositories/catalog.repository";
 import { projectService } from "@/services/project.service";
 import { getAnalysesQueue } from "@/lib/queue";
+import { snapshotAircraft } from "@/lib/aircraft-snapshot";
 import type { CreateAnalysisInput } from "@/schemas/analysis.schema";
 
 class HttpError extends Error {
@@ -30,6 +31,7 @@ export const analysisService = {
     const analysis = await analysisRepository.create({
       projectId: project.id,
       aircraftConfigId: project.config.id,
+      aircraftSnapshot: snapshotAircraft(project.config),
       propellerId: propeller.id,
       motorId: motor.id,
       altitude: input.altitude,

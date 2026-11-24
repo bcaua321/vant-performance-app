@@ -1,7 +1,7 @@
 import { createHash, randomBytes } from "node:crypto";
 
 /**
- * RF003 — Recuperar senha.
+ * Token de recuperação de senha.
  *
  * O token enviado ao usuario tem 32 bytes aleatorios (base64url). No banco
  * fica apenas o hash SHA-256, de modo que um vazamento da tabela nao permite

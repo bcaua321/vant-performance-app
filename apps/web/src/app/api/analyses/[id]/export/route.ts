@@ -4,6 +4,7 @@ import { analysisService } from "@/services/analysis.service";
 import { toErrorResponse } from "@/lib/api-utils";
 import { buildAnalysisPdf, metricsToCsv } from "@/lib/export";
 import type { AnalysisMetrics } from "@/lib/python-client";
+import { aircraftOfAnalysis } from "@/lib/aircraft-snapshot";
 
 type Params = { params: Promise<{ id: string }> };
 
@@ -21,7 +22,7 @@ export async function GET(req: Request, { params }: Params) {
     const baseName = `analise-${id.slice(-8)}`;
 
     if (format === "json") {
-      return new NextResponse(JSON.stringify({ analysis: { id, altitude: analysis.altitude, propeller: analysis.propeller.name, motor: analysis.motor.name }, ...results }, null, 2), {
+      return new NextResponse(JSON.stringify({ analysis: { id, altitude: analysis.altitude, propeller: analysis.propeller.name, motor: analysis.motor.name, aircraft: aircraftOfAnalysis(analysis) }, ...results }, null, 2), {
         headers: {
           "Content-Type": "application/json",
           "Content-Disposition": `attachment; filename="${baseName}.json"`,

@@ -25,6 +25,7 @@ export const analysisRepository = {
   create(data: {
     projectId: string;
     aircraftConfigId: string;
+    aircraftSnapshot: Prisma.InputJsonValue;
     propellerId: string;
     motorId: string;
     altitude: number;

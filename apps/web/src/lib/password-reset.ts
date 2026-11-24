@@ -13,7 +13,7 @@ import {
  * ponytail: log no console; trocar por um provedor SMTP/transacional para producao.
  */
 function deliverResetLink(email: string, url: string): void {
-  console.info(`[RF003] Link de redefinição de senha para ${email}: ${url}`);
+  console.info(`[recuperar-senha] Link de redefinição de senha para ${email}: ${url}`);
 }
 
 /**
@@ -46,7 +46,7 @@ export async function resetPassword(token: string, newPassword: string): Promise
   });
   if (!record || !isResetTokenUsable(record)) return false;
 
-  const passwordHash = await bcrypt.hash(newPassword, 12); // mesmo custo do RF001 (RNF012)
+  const passwordHash = await bcrypt.hash(newPassword, 12); // mesmo custo usado no cadastro
   // Marca o token como usado antes de trocar a senha, na mesma transacao:
   // se outra requisicao ja o consumiu (count 0), nada e alterado.
   return prisma.$transaction(async (tx) => {

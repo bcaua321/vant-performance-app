@@ -4,7 +4,7 @@ import { toErrorResponse } from "@/lib/api-utils";
 import { requestPasswordReset } from "@/lib/password-reset";
 
 /**
- * RF003 — Solicitar recuperacao de senha. Responde sempre da mesma forma,
+ * Solicitar recuperacao de senha. Responde sempre da mesma forma,
  * exista ou nao o e-mail, para nao revelar contas cadastradas.
  */
 export async function POST(req: Request) {

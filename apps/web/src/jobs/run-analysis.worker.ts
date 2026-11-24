@@ -5,6 +5,7 @@
  * Python via HTTP e persiste resultados/graficos (DONE) ou a causa da
  * falha (FAILED). Executar com: npm run worker
  */
+import { aircraftOfAnalysis } from "../lib/aircraft-snapshot";
 import { Worker } from "bullmq";
 import { PrismaClient } from "@prisma/client";
 import { runPythonAnalysis } from "../lib/python-client";
@@ -31,7 +32,8 @@ const worker = new Worker(
         where: { id: analysisId },
         include: { aircraftConfig: true, propeller: true, motor: true },
       });
-      const cfg = analysis.aircraftConfig;
+      // calcula com a cópia gravada na análise, não com a configuração atual do projeto
+      const cfg = aircraftOfAnalysis(analysis);
 
       const result = await runPythonAnalysis({
         analysisId,

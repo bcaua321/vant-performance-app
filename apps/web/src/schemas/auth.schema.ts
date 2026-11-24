@@ -1,6 +1,6 @@
 import { z } from "zod";
 
-/** Regra de senha do RF001, reaproveitada na redefinicao do RF003. */
+/** Regra de senha do cadastro, reaproveitada na redefinicao de senha. */
 const passwordRule = z
   .string()
   .min(8, "Senha deve ter ao menos 8 caracteres")
@@ -18,12 +18,12 @@ export const loginSchema = z.object({
   password: z.string().min(8, "Senha deve ter ao menos 8 caracteres"),
 });
 
-/** RF003: solicitar recuperacao de senha. */
+/** Solicitar recuperacao de senha. */
 export const forgotPasswordSchema = z.object({
   email: z.string().email("E-mail inválido"),
 });
 
-/** RF003: redefinir a senha com o token recebido. */
+/** Redefinir a senha com o token recebido. */
 export const resetPasswordSchema = z.object({
   token: z.string().min(1, "Link de recuperação inválido"),
   password: passwordRule,

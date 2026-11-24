@@ -59,7 +59,7 @@ describe("registerSchema (RF001/RNF012)", () => {
   });
 });
 
-describe("resetPasswordSchema (RF003)", () => {
+describe("resetPasswordSchema", () => {
   it("aplica a mesma regra de senha do cadastro", () => {
     expect(resetPasswordSchema.safeParse({ token: "abc", password: "senha123" }).success).toBe(true);
     expect(resetPasswordSchema.safeParse({ token: "abc", password: "curta1" }).success).toBe(false);

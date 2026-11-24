@@ -1,7 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { RESET_TOKEN_TTL_MS, generateResetToken, hashResetToken, isResetTokenUsable } from "./reset-token";
 
-describe("RF003 — token de recuperação de senha", () => {
+describe("token de recuperação de senha", () => {
   it("gera token de 32 bytes e guarda só o hash SHA-256", () => {
     const { token, tokenHash } = generateResetToken();
     expect(Buffer.from(token, "base64url")).toHaveLength(32);

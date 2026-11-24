@@ -8,7 +8,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { resetPasswordSchema, type ResetPasswordInput } from "@/schemas/auth.schema";
 import { Button, Card, CardBody, FieldError, Input, Label } from "@/components/ui";
 
-/** RF003 — Tela de nova senha, aberta pelo link com o token. */
+/** Tela de nova senha, aberta pelo link com o token. */
 function ResetPasswordForm() {
   const token = useSearchParams().get("token") ?? "";
   const [done, setDone] = useState(false);

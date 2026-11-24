@@ -7,7 +7,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { forgotPasswordSchema, type ForgotPasswordInput } from "@/schemas/auth.schema";
 import { Button, Card, CardBody, FieldError, Input, Label } from "@/components/ui";
 
-/** RF003 — Tela "Esqueci minha senha". */
+/** Tela "Esqueci minha senha". */
 export default function ForgotPasswordPage() {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);

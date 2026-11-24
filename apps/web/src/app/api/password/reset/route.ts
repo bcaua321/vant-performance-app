@@ -3,7 +3,7 @@ import { resetPasswordSchema } from "@/schemas/auth.schema";
 import { toErrorResponse } from "@/lib/api-utils";
 import { resetPassword } from "@/lib/password-reset";
 
-/** RF003 — Redefinir a senha com o token recebido (uso unico, validade de 1 hora). */
+/** Redefinir a senha com o token recebido (uso unico, validade de 1 hora). */
 export async function POST(req: Request) {
   try {
     const { token, password } = resetPasswordSchema.parse(await req.json());

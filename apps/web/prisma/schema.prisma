@@ -120,6 +120,9 @@ model Analysis {
   project             Project         @relation(fields: [projectId], references: [id], onDelete: Cascade)
   aircraftConfigId    String
   aircraftConfig      AircraftConfig  @relation(fields: [aircraftConfigId], references: [id])
+  /// Copia dos parametros da aeronave no momento da criacao da analise:
+  /// editar a configuracao do projeto nao altera analises antigas.
+  aircraftSnapshot    Json?
   propellerId         String
   propeller           Propeller       @relation(fields: [propellerId], references: [id])
   motorId             String
@@ -150,7 +153,7 @@ model AnalysisGraph {
   @@map("analysis_graphs")
 }
 
-/// RF003: token de recuperacao de senha. Guarda apenas o hash SHA-256 do
+/// Token de recuperacao de senha. Guarda apenas o hash SHA-256 do
 /// token enviado ao usuario; expira em 1 hora e vale para um unico uso.
 model PasswordResetToken {
   id        String    @id @default(cuid())
