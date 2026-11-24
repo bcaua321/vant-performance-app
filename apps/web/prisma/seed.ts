@@ -1,5 +1,5 @@
 /**
- * Seed do banco: helices com curva de tracao tabelada e motores BLDC de
+ * Seed do banco: helices com curva de tracao e motores BLDC de
  * referencia.
  */
 import { PrismaClient } from "@prisma/client";
@@ -7,11 +7,11 @@ import bcrypt from "bcryptjs";
 
 const prisma = new PrismaClient();
 
-// Densidade de referencia das curvas de tracao tabeladas: 1,12 kg/m^3
+// Densidade de referencia das curvas de tracao das helices: 1,12 kg/m^3
 const TEST_DENSITY = 1.12;
 
 const propellers = [
-  // Com curva de tracao tabelada
+  // Com curva de tracao da helice
   { name: "APC 20x10E", diameter: 20, pitch: 10, manufacturer: "APC", dataFilePath: "20x10E.csv" },
   { name: "APC 22x10E", diameter: 22, pitch: 10, manufacturer: "APC", dataFilePath: "22x10E.csv" },
   { name: "APC 22x12E", diameter: 22, pitch: 12, manufacturer: "APC", dataFilePath: "22x12E.csv" },
@@ -20,7 +20,7 @@ const propellers = [
   { name: "APC 22x12E (600 W)", diameter: 22, pitch: 12, manufacturer: "APC", dataFilePath: "22x12E_600W.csv" },
   { name: "APC 24x12 (580 W)", diameter: 24, pitch: 12, manufacturer: "APC", dataFilePath: "24x12_580W.csv" },
   // Demais helices do catalogo APC (geometria QPROP de `reference/codigo-2026/Helices`);
-  // sem curva tabelada, a tracao vem do modelo analitico de reserva
+  // sem curva de tracao, a tracao vem do modelo analitico de reserva
   { name: "APC 13x10E", diameter: 13, pitch: 10, manufacturer: "APC", dataFilePath: null },
   { name: "APC 13x4E", diameter: 13, pitch: 4, manufacturer: "APC", dataFilePath: null },
   { name: "APC 13x5.5E", diameter: 13, pitch: 5.5, manufacturer: "APC", dataFilePath: null },
